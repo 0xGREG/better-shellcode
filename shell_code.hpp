@@ -10,8 +10,6 @@ public:
     }
 
     ~shell_code() {
-        std::cout << "clean";
-
         delete[] buffer;
     }
 
