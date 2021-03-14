@@ -16,7 +16,7 @@ public:
     template<typename T>
     void make(const T& v) {
         if (std::is_same<T, int>::value) {
-            *reinterpret_cast<uint8_t*>(buffer + buffer_size) = static_cast<uint8_t>(v);
+            *reinterpret_cast<uint8_t*>(buffer + buffer_size) = *reinterpret_cast<const uint8_t*>(&v);
             buffer_size += sizeof(uint8_t);
         }
         else {
@@ -36,6 +36,10 @@ public:
         for (size_t i = 0; i < buffer_size; i++) {
             getter[i] = buffer[i];
         }
+    }
+
+    void* get() {
+        return buffer;
     }
 
     size_t size() {
