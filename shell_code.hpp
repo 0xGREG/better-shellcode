@@ -8,7 +8,7 @@ private:
     size_t buffer_size = 0;
 public:
     shell_code() {
-        buffer = VirtualAlloc(nullptr, 0x1000, MEM_RESERVE | MEM_COMMIT, PAGE_READWRITE);
+        buffer = reinterpret_cast<uint8_t*>(VirtualAlloc(nullptr, 0x1000, MEM_RESERVE | MEM_COMMIT, PAGE_READWRITE));
     }
 
     ~shell_code() {
@@ -17,7 +17,7 @@ public:
 
     template<typename T>
     void make(const T& v) {
-        if (std::is_same<T, int>::value) {
+        if constexpr (std::is_same<T, int>::value) {
             *reinterpret_cast<uint8_t*>(buffer + buffer_size) = *reinterpret_cast<const uint8_t*>(&v);
             buffer_size += sizeof(uint8_t);
         }
