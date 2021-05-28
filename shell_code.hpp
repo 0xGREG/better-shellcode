@@ -1,5 +1,6 @@
 #pragma once
 #include <iostream>
+#include <Windows.h>
 
 class shell_code {
 private:
@@ -7,11 +8,11 @@ private:
     size_t buffer_size = 0;
 public:
     shell_code() {
-        buffer = new uint8_t[0x1000];
+        buffer = VirtualAlloc(nullptr, 0x1000, MEM_RESERVE | MEM_COMMIT, PAGE_READWRITE);
     }
 
     ~shell_code() {
-        delete[] buffer;
+        VirtualFree(buffer, 0, MEM_RELEASE);
     }
 
     template<typename T>
